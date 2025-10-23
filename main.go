@@ -6,6 +6,7 @@ import (
 
 	"github.com/66emil/fiber-todo-api/pkg/database"
 	"github.com/66emil/fiber-todo-api/pkg/handlers"
+	"github.com/66emil/fiber-todo-api/pkg/middleware"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -15,7 +16,10 @@ func setupRoutes(app *fiber.App) {
 	authGroup.Post("/register", handlers.Register)
 	authGroup.Post("/login", handlers.Login)
 
-	// Здесь позже добавим защищенные маршруты
+	apiGroup := app.Group("/api")
+
+	apiGroup.Use(middleware.AuthRequired)
+	apiGroup.Get("/todos", handlers.GetTodos)
 }
 
 func main() {
