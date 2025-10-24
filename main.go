@@ -19,7 +19,10 @@ func setupRoutes(app *fiber.App) {
 	apiGroup := app.Group("/api")
 
 	apiGroup.Use(middleware.AuthRequired)
+	apiGroup.Post("/todos", handlers.CreateTodo)
 	apiGroup.Get("/todos", handlers.GetTodos)
+	apiGroup.Patch("/todos/:id", handlers.UpdateTodo)
+	apiGroup.Delete("/todos/:id", handlers.DeleteTodo)
 }
 
 func main() {
